@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+</head>
+
+<body>
+	<textarea name="sms-message" id="sms-message"></textarea>
+	<button autofocus="autofocus" type="button" id="btn-send-sms" name="btn-send-sms" value="Send SMS">Send Message</button>
+	<h1 id="text-output"></h1>
+	<script type="text/javascript">
+		const sendData = function (e) {
+			var myreq = new XMLHttpRequest();
+			// myreq.open("GET", "https://crossorigin.me/https://www.hl7.org/fhir/endpoint-example.json");
+			myreq.open("POST", "https://93b7ocu3lg.execute-api.us-east-1.amazonaws.com/dev")
+			// myreq.setRequestHeader("x-api-key", "Aj3YhlQhL46Balrs8poch9hOSgkDPNqpaTklTbz0")
+			myreq.setRequestHeader("Content-Type", "x-www-form-urlencoded")
+			myreq.send(JSON.stringify({"message":`${document.getElementById("sms-message").value}`}))
+
+			myreq.onload = function (e) {
+				var mydata = JSON.parse(myreq.responseText);
+				document.getElementById('text-output').innerHTML = `${mydata.body.replaceAll("\"", "")}`
+			}
+		}
+		document.getElementById("sms-message").onclick = sendData
+		initialized = false;
+		document.getElementById("sms-message").oninput = function (e) {
+			if (!initialized) {
+				initialized = true
+				interval_id = setInterval(function(e) {
+					sendData(e)
+					clearInterval(interval_id)
+					initialized = false
+				}, 2000)
+			}
+		}
+	</script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</body>
+</html>

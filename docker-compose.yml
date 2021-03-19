@@ -1,0 +1,59 @@
+services:
+  web:
+    image: nginx
+    volumes:
+      - ./src/index.html:/src/index.html
+      - ./src/nginx.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - "80:80"
+  api:
+    image: python
+    command: python ./src/handler.py
+    volumes:
+      - ./src:/src
+
+
+# version: "3.9"
+   
+# services:
+#   db:
+#     image: postgres
+#     volumes:
+#       - ./data/db:/var/lib/postgresql/data
+#     environment:
+#       - POSTGRES_DB=postgres
+#       - POSTGRES_USER=postgresql
+#       - POSTGRES_PASSWORD=postgres
+#   web:
+#     build: .
+#     command: python ./src/handler.py #runserver 0.0.0.0:80
+#     volumes:
+#       - .:/src
+#     ports:
+#       - "80:80"
+#     depends_on:
+#       - db
+    # links:
+    #   - swag
+  # swag:
+  #   image: ghcr.io/linuxserver/swag
+  #   container_name: swag
+  #   cap_add:
+  #     - NET_ADMIN
+  #   environment:
+  #     - PUID=1000
+  #     - PGID=1000
+  #     - TZ=America/New_York
+  #     - URL=bluefuzzy707.online
+  #     - SUBDOMAINS=www,
+  #     - VALIDATION=dns
+  #     - DNSPLUGIN=gandi
+  #     - EMAIL=bluefuzzy707@gmail.com
+  #     - ONLY_SUBDOMAINS=false
+  #     - STAGING=true
+  #   volumes:
+  #     - /path/to/appdata/config:/config
+  #   ports:
+  #     - 443:443
+  #     - 80:80
+  #   restart: unless-stopped
