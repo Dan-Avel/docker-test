@@ -1,16 +1,41 @@
 services:
+  api:
+    build: ./src/python
+    command: python src/handler.py
+    volumes:
+      - ./src/python:/src/
+      - ./src/nginx/index.html:/src/index.html
   web:
     image: nginx
     volumes:
-      - ./src/index.html:/src/index.html
-      - ./src/nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./src/nginx/index.html:/src/index.html
+      - ./src/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
     ports:
-      - "80:80"
-  api:
-    image: python
-    command: python ./src/handler.py
-    volumes:
-      - ./src:/src
+      - 80:80
+    links:
+      - api
+  # swag:
+  #   image: ghcr.io/linuxserver/swag
+  #   container_name: swag
+  #   cap_add:
+  #     - NET_ADMIN
+  #   environment:
+  #     - PUID=1000
+  #     - PGID=1000
+  #     - TZ=America/New_York
+  #     - URL=bluefuzzy707.duckdns.org
+  #     - SUBDOMAINS=wildcard
+  #     - VALIDATION=duckdns
+  #     - DUCKDNSTOKEN=5d62a700-5485-4d19-b2ff-38ff1e2c6d3c
+  #     - EMAIL=bluefuzzy707@gmail.com
+  #     - ONLY_SUBDOMAINS=false
+  #     - STAGING=true
+  #   volumes:
+  #     - /path/to/appdata/config:/config
+  #   ports:
+  #     - 443:443
+  #     - 80:80
+  #   restart: unless-stopped
 
 
 # version: "3.9"
