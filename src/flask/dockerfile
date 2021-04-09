@@ -1,0 +1,5 @@
+FROM python:3
+WORKDIR /
+COPY ./requirements.txt /mnt/
+RUN pip install -r /mnt/requirements.txt
+EXPOSE 5000
