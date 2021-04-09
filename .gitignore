@@ -1,3 +1,6 @@
+src/python/demo_stack/aws_lambda_sendmessage/*.csv
+src/python/demo_stack/aws_lambda_sendmessage/imports/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
